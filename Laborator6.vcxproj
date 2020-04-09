@@ -149,13 +149,19 @@
   <ItemGroup>
     <ClCompile Include="Entitate.cpp" />
     <ClCompile Include="Laborator6.cpp" />
-    <ClCompile Include="Repo.cpp" />
+    <ClCompile Include="RepoFile.cpp" />
+    <ClCompile Include="RepoTemplate.cpp" />
+    <ClCompile Include="ServiceR.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entitate.h" />
-    <ClInclude Include="Repo.h" />
+    <ClInclude Include="RepoFile.h" />
+    <ClInclude Include="RepoTemplate.h" />
+    <ClInclude Include="ServiceR.h" />
     <ClInclude Include="Test.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
