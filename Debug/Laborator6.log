@@ -1,0 +1,7 @@
+﻿  ServiceR.cpp
+  UI.cpp
+  Test.cpp
+  Generating Code...
+C:\Users\Lenovo\source\repos\Laborator6\RepoTemplate.h(67): warning C4715: 'RepoTemplate<Rezervare>::getById': not all control paths return a value
+C:\Users\Lenovo\source\repos\Laborator6\RepoTemplate.h(67): warning C4715: 'RepoTemplate<Rezervare>::getById': not all control paths return a value
+  Laborator6.vcxproj -> C:\Users\Lenovo\source\repos\Laborator6\Debug\Laborator6.exe

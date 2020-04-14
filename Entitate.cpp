@@ -1,9 +1,12 @@
 #include "Entitate.h"
 #include <cstddef>
 #include <string.h>
+#include <iostream>
+//#include <iostream>
+using namespace std;
 
 Rezervare::Rezervare()
-//constructor
+//constructor implicit
 {
 	this->id = 0;
 	this->nr = NULL;
@@ -12,7 +15,7 @@ Rezervare::Rezervare()
 }
 
 Rezervare::Rezervare(int id, const char* nr, const char* tip, bool eliberata)
-/*constructor cu parametrii
+/*constructor general
 input: id: int, id-ul rezervarii
 		nr: string, numarul camerei
 		tip: string, tipul camerei
@@ -27,6 +30,7 @@ input: id: int, id-ul rezervarii
 }
 
 Rezervare::Rezervare(const Rezervare& r)
+//constructor de copiere
 {
 	this->tip = new char[strlen(r.tip) + 1];
 	strcpy_s(this->tip, strlen(r.tip) + 1, r.tip);
@@ -71,11 +75,72 @@ input: elib: bool*/
 Rezervare& Rezervare::operator=(const Rezervare& r)
 //operator de atribuire
 {
+	
 	this->setEliberata(r.eliberata);
 	this->setId(r.id);
 	this->setNr(r.nr);
 	this->setTip(r.tip);
 	return *this;
+}
+
+int Rezervare::getID()
+//output: id-ul rezervarii
+{
+	return id;
+}
+
+char* Rezervare::getNr()
+//output: numarul rezervarii
+{
+	return nr;
+}
+
+char* Rezervare::getTip()
+//output: tipul rezervarii
+{
+	return tip;
+}
+
+bool Rezervare::getElib()
+//output: starea de eliberare a rezervarii
+{
+	return eliberata;
+}
+
+istream& operator >>(istream& is, Rezervare& r)
+//afisare
+{
+	int id;
+	char* nr = new char[10];
+	char* tip = new char[10];
+	bool eliberata;
+	cout << "Dati id-ul: ";
+	is >> id;
+	cout << "Dati numarul: ";
+	is >> nr;
+	cout << "Dati tipul: ";
+	is >> tip;
+	cout << "Dati starea eliberarii (true/ false): ";
+	is >> eliberata;
+	r.setId(id);
+	r.setNr(nr);
+	r.setTip(tip);
+	r.setEliberata(eliberata);
+	delete[] nr;
+	delete[] tip;
+	return is;
+}
+
+ostream& operator <<(ostream& os, Rezervare& c)
+//citire
+{
+	os << "Id: " << c.id << " numar: " << c.nr << " tip: " << c.tip << " eliberata: " << c.eliberata << endl;
+	return os;
+}
+
+bool Rezervare::operator==(const Rezervare& r)
+{
+	return (id == r.id);
 }
 
 Rezervare::~Rezervare()

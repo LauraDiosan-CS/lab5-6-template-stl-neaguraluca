@@ -1,5 +1,6 @@
 #pragma once
 #include"Entitate.h"
-#include"Repo.h"
+#include"RepoTemplate.h"
+#include"ServiceR.h"
 
-void testare()
+void testare();
