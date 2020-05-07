@@ -27,6 +27,7 @@ public:
 	bool getElib();
 	friend ostream& operator<<(ostream&, Rezervare&);
 	friend istream& operator>>(istream&, Rezervare&);
+	bool operator<(const Rezervare&);
 	~Rezervare();
 };
 

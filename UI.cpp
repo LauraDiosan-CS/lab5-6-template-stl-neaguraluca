@@ -62,6 +62,9 @@ void UI::updateUI()
 	cout << endl;
 }
 
+
+
+
 void UI::showAllUI()
 {
 	vector<Rezervare> rez = serv.getAll();
@@ -69,6 +72,10 @@ void UI::showAllUI()
 		cout << r << endl;
 }
 
+void UI::procentajUI()
+{
+	serv.getPercentageByType();
+}
 
 
 UI::UI()
@@ -90,7 +97,8 @@ void UI::showMenu()
 		cout << "2.Stergere rezervare" << endl;
 		cout << "3.Modificare rezervare" << endl;
 		cout << "4.Afisare rezervari" << endl;
-		cout << "5.Iesire" << endl;
+		cout << "5.Afisare procentaje" << endl;
+		cout << "6.Iesire" << endl;
 		cout << "------------------------"<<endl;
 		cout << "Alegeti o operatie: " << endl;
 		int op;
@@ -101,7 +109,8 @@ void UI::showMenu()
 		case 2: {removeUI(); break; };
 		case 3: {updateUI(); break; };
 		case 4: {showAllUI(); break; };
-		case 5: {ok = true; };
+		case 5: {procentajUI; break; };
+		case 6: {ok = true; }
 		default: {cout << "Operatie inexistenta"; };
 
 		}

@@ -1,23 +1,27 @@
 #pragma once
 #include "Entitate.h"
 #include "RepoTemplate.h"
+#include "RepoFile.h"
 #include <vector>
 using namespace std;
 
 class ServiceR
 {
 private:
-	RepoTemplate<Rezervare> repo;
+	//RepoTemplate<Rezervare> &repo;
+	RepoFile<Rezervare> repo;
 public:
 	ServiceR();
-	ServiceR(const RepoTemplate<Rezervare>&);
-	void setRepo(const RepoTemplate<Rezervare>&);
-	void add(int, const char*, const char*, bool);
+	ServiceR(RepoFile<Rezervare>);
+
+	//void setRepo(const RepoTemplate<Rezervare>&);
+	void add(int, char*, char*, bool);
 	void remove(int);
 	void update(int, char*, char*, bool);
 	Rezervare getById(int);
 	vector<Rezervare> getAll();
+	int calcProcent(char*);
 	vector<char*> getAllTypes();
-	vector<double> getPercentageByType();
+	void getPercentageByType();
 	~ServiceR();
 };

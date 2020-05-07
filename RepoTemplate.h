@@ -15,14 +15,18 @@ public:
 	RepoTemplate<T>(){}
 	void add(const T&);
 	void remove(int);
-	void update(int, char*, char*, bool);
+	void update(const T&, const T&);
 	vector<T> getAll();
 	Rezervare getById(int);
 	int getSize();
+	T getElement(int poz)
+	{
+		return this->elem[poz];
+	}
 	~RepoTemplate();
 };
 template <class T>
-void RepoTemplate<T>::add(const T& e)
+inline void RepoTemplate<T>::add(const T& e)
 /*adauga un element
 input: e:elementul de adaugat*/
 {
@@ -30,7 +34,7 @@ input: e:elementul de adaugat*/
 }
 
 template <class T>
-void RepoTemplate<T>::remove(int id)
+inline void RepoTemplate<T>::remove(int id)
 /*sterge un element
 input: e:elementul de sters*/
 {
@@ -42,20 +46,18 @@ input: e:elementul de sters*/
 }
 
 template <class T>
-void RepoTemplate<T>::update(int id, char* nrNou, char* tipNou, bool eliberataNou)
+inline void RepoTemplate<T>::update(const T& rez, const T& rez_nou)
 /*modifica un element
-input: vechi: elementul de modificat
-		nou: elementul cu care se modifica*/
+input: id, int: id-ul elementului de modificat
+		*nou: parametrii elementului cu care se modifica*/
 {
-	Rezervare rez = getById(id);
-	Rezervare rez_nou(id, nrNou, tipNou, eliberataNou);
+	
 	replace(elem.begin(), elem.end(), rez, rez_nou);
 	
-
 }
 
 template <class T>
-Rezervare RepoTemplate<T>::getById(int id)
+inline Rezervare RepoTemplate<T>::getById(int id)
 /*gaseste rezervarea aferenta unui id
 input: id
 output: rezervarea a carei id este cel cautat*/
@@ -67,7 +69,7 @@ output: rezervarea a carei id este cel cautat*/
 }
 
 template<class T>
-vector<T> RepoTemplate<T>::getAll()
+inline vector<T> RepoTemplate<T>::getAll()
 {
 	return elem;
 }

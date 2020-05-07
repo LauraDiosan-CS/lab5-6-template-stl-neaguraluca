@@ -143,6 +143,11 @@ bool Rezervare::operator==(const Rezervare& r)
 	return (id == r.id);
 }
 
+bool Rezervare::operator<(const Rezervare& r)
+{
+	return (id==r.id);
+}
+
 Rezervare::~Rezervare()
 //destructor
 {

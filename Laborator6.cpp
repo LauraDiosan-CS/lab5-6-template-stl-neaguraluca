@@ -4,14 +4,17 @@
 #include "Test.h"
 #include "Entitate.h"
 #include "ServiceR.h"
+#include "RepoFile.h"
 #include "RepoTemplate.h"
 
 
 int main()
 {
+	testare();
 
-	RepoTemplate<Rezervare> r;
-	ServiceR s(r);
+	Repo<Rezervare>* repo = new RepoFile<Rezervare>("Rezervari.txt");
+	((RepoFile<Rezervare>*)repo)->loadFromFile();
+	ServiceR s(repo);
 	UI u(s);
 	u.showMenu();
 	return 0;

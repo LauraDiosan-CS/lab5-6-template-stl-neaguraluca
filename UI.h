@@ -11,7 +11,9 @@ private:
 	void updateUI();
 	void showAllUI();
 	void runTests();
-	void showTypes();
+	void procentajUI();
+	void populate();
+	//void showTypes();
 public:
 	UI();
 	UI(ServiceR&);

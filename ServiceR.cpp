@@ -1,5 +1,6 @@
 #include "ServiceR.h"
 #include <algorithm>
+#include <set>
 using namespace std;
 
 ServiceR::ServiceR()
@@ -8,20 +9,15 @@ ServiceR::ServiceR()
 
 }
 
-ServiceR::ServiceR(const RepoTemplate<Rezervare>& r)
+ServiceR::ServiceR(RepoFile<Rezervare> repo)
 //constructor general
 {
-	repo = r;
+	this->repo=repo;
 }
 
 
-void ServiceR::setRepo(const RepoTemplate<Rezervare>& r)
-{
-	repo = r;
-}
 
-
-void ServiceR::add(int id, const char* nr, const char* tip, bool eliberata)
+void ServiceR::add(int id, char* nr, char* tip, bool eliberata)
 /*apeleaza repo in vederea adaugarii unui element
 input: id: int
 	nr: string
@@ -30,6 +26,7 @@ input: id: int
 {
 	Rezervare rez(id, nr, tip, eliberata);
 	repo.add(rez);
+	repo.saveToFile();
 }
 
 
@@ -39,6 +36,7 @@ void ServiceR::remove(int id)
 {
 	//Rezervare rez = repo.getById(id);
 	repo.remove(id);
+	repo.saveToFile();
 }
 
 
@@ -51,7 +49,10 @@ input: id: int, id-ul elementului care va fi modificat
 {
 	//Rezervare rez_vechi = repo.getById(id);
 	//Rezervare rez_nou(id, nrNou, tipNou, eliberataNou);
-	repo.update(id, nrNou, tipNou, eliberataNou);
+	Rezervare old = repo.getById(id);
+	Rezervare nou(id, nrNou, tipNou, eliberataNou);
+	repo.update(old, nou);
+	repo.saveToFile();
 }
 
 
@@ -72,38 +73,80 @@ vector<char*> ServiceR::getAllTypes()
 //creaza o lista cu toate tipurile de camera existente
 {
 	vector<char*> tipuri;
+	
+	vector<char*> unice;
 	vector<Rezervare> rezervari = getAll();
+	int tot_tipuri = -1;
 	for (Rezervare r : rezervari)
-		//if (!find(tipuri.begin(), tipuri.end(), r.getTip))
+	{
 		tipuri.push_back(r.getTip());
-	return tipuri;
+		tot_tipuri++;
+	}
+	for (int i = 0; i < tot_tipuri-1; i++)
+	{
+		bool sem = true;
+		for (int j =i+1 ; j < tot_tipuri; j++)
+			if (strcmp(tipuri[i], tipuri[j])==0)
+				sem = false;
+		if (sem)
+			unice.push_back(tipuri[i]);
+	}
+
+	bool sem = true;
+	for (int j =0; j < tot_tipuri; j++)
+		if (tipuri[tot_tipuri-1] == tipuri[j])
+			sem = false;
+	if (sem)
+		unice.push_back(tipuri[tot_tipuri]);
+
+	return unice;
 }
 
-vector<double> ServiceR::getPercentageByType()
-//calculeaza procentul ocuparii fiecarei camere
+int ServiceR::calcProcent(char* tip)
 {
-	vector<char*> tipuri = getAllTypes();
-	vector<int> tot;     //numarul total de camere pt fiecare tip
-	vector<int> procent;	//numarul de camere ocupate pt fiecare tip
-	vector<double> rezultat;	//procentul reprezentat de camerele ocupate fata de totalul de camere pt fiecare tip
-	int i = 0;
-	//char tip[10];
-	for (char* tip : tipuri)
-		for (Rezervare r : getAll())
-		{
+	int tot = 0;
+	int procent = 0;
+	vector<Rezervare> r = getAll();
+	for (int i=0; i<r.size(); i++)
+	{
 
-			if (r.getTip() == tip)
-			{
-				tot[i] ++;
-				if (r.getElib() == 0)
-					procent[i]++;
-			};
-			rezultat[i] = ( procent[i] / tot[i]) * 100;
-			i++;
-		}
-	sort(rezultat.begin(), rezultat.end());
-	return rezultat;
+		if (strcmp(r[i].getTip(), tip)==0)
+		{
+			tot++;
+			if (r[i].getElib() == true)
+				procent++;
+		};
+		//return tot;
+		int rezultat;
+		if (tot == 0) rezultat = 0;
+		else
+			rezultat = (procent * 100) / tot;
+		return rezultat;
+	}
 }
+
+void ServiceR::getPercentageByType()
+//calculeaza procentul ocuparii fiecarui tip
+{
+	vector<Rezervare> r = getAll();
+	vector<char*> unice = getAllTypes();
+	//for (int i = 0; i < unice.size(); i++)
+	//	calcProcent(unice[i]);
+	char aux[10];
+	for (int i=0; i<unice.size()-1; i++)
+		for (int j=i+1;j<unice.size();j++)
+			if (calcProcent(unice[i]) > calcProcent(unice[j]))
+			{
+				strcpy_s(aux, strlen(unice[i]) + 1, unice[i]);
+				strcpy_s(unice[i], strlen(unice[j]) + 1, unice[j]);
+				strcpy_s(unice[j], strlen(aux) + 1, aux);
+			}
+	for(int i=0; i<unice.size(); i++)
+		cout << unice[i] << ": " << calcProcent(unice[i]) << "%;" << endl;
+	
+}
+
+
 
 ServiceR::~ServiceR()
 //destructor
